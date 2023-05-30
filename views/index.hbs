@@ -1,1 +1,18 @@
-<h2>Hello world! 這是 index</h2>
+<div class="container">
+  <h1>
+    URL Shortener
+  </h1>
+  
+
+  <form method="POST" action="/shortURL">
+    <input type="url" placeholder="http://" required="required" name="inputURL" value="{{origlUrl}}">
+    <button class="btn btn-success" type="submit">Generate Password</button>
+    {{#if shortnumber}}
+    <div class="alert alert-info" role="alert">
+      <span>你的網址是:</span> <code>{{shortnumber}}</code>
+    </div>
+    {{/if}}
+  </form>
+
+
+</div>

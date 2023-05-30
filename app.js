@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require("express-handlebars")
+const randomURL = require('./randomURL')
+const ShortUrl = require('./models/shorturl') // 載入 shorturl model
 
 const app = express()
 
@@ -23,13 +25,29 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-
 app.engine("hbs", exphbs({ defaultLayout: "main", extname: ".hbs"}))
 app.set("view engine", "hbs")
 
-app.get('/', (req, res) => {
-  res.render('index')
+// setting body-parser
+app.use(express.urlencoded({ extended: true }))
+
+
+// 首頁
+app.get("/", (req, res) => {
+  res.render("index")
 })
+
+
+app.post('/shortURL', (req, res) => {
+  const origlUrl = req.body.inputURL       // 從 req.body 拿出表單裡的 name 資料
+  console.log('options', origlUrl)
+  const shortnumber = randomURL()
+  return ShortUrl.create({ originalUrl : origlUrl , shortenedUrl : shortnumber })     // 存入資料庫
+    // .then(() => res.redirect('/')) // 新增完成後導回首頁 //結果居然使用render重新導回就好
+    .then(() => res.render('index' , { randomURL : randomURL , shortnumber : shortnumber , origlUrl : origlUrl})) // 新增完成後導回首頁
+    .catch(error => console.log(error))
+})
+
 
 app.listen(3000, () => {
   console.log('App is running on http://localhost:3000')
