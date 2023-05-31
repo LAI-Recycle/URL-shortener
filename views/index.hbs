@@ -6,10 +6,22 @@
 
   <form method="POST" action="/shortURL">
     <input type="url" placeholder="http://" required="required" name="inputURL" value="{{origlUrl}}">
-    <button class="btn btn-success" type="submit">Generate Password</button>
+    <button class="btn btn-success" type="submit">Shorten</button>
     {{#if shortnumber}}
     <div class="alert alert-info" role="alert">
-      <span>你的網址是:</span> <code>{{shortnumber}}</code>
+      <span>你的網址是:</span> <code id="copy" >{{shortnumber}} </code>
+      
+      {{!-- copy功能 --}}
+      <button type="button" onclick="copyEvent('copy')">Copy</button>
+
+      <script>
+        function copyEvent(id) {
+          let str = document.getElementById(id);
+          window.getSelection().selectAllChildren(str);
+          document.execCommand("Copy")
+        }
+      </script>
+
     </div>
     {{/if}}
   </form>

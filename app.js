@@ -39,13 +39,35 @@ app.get("/", (req, res) => {
 
 
 app.post('/shortURL', (req, res) => {
-  const origlUrl = req.body.inputURL       // 從 req.body 拿出表單裡的 name 資料
+  const origlUrl = req.body.inputURL       // 從 req.body 拿出表單裡的 inputURL 資料
   console.log('options', origlUrl)
-  const shortnumber = randomURL()
-  return ShortUrl.create({ originalUrl : origlUrl , shortenedUrl : shortnumber })     // 存入資料庫
-    // .then(() => res.redirect('/')) // 新增完成後導回首頁 //結果居然使用render重新導回就好
-    .then(() => res.render('index' , { randomURL : randomURL , shortnumber : shortnumber , origlUrl : origlUrl})) // 新增完成後導回首頁
-    .catch(error => console.log(error))
+
+
+    // 在 MongoDB 中查詢對應的 shortenedUrl
+  ShortUrl.findOne({ originalUrl: origlUrl }, (err, result) => {
+    if (err) {
+      // 處理錯誤
+      console.error(err);
+      return;
+    }
+
+    if (result) {
+      // 顯示對應的 shortenedUrl
+      console.log('對應的 shortenedUrl：', result.shortenedUrl);
+      return res.render('index' , {  shortnumber : result.shortenedUrl , origlUrl : origlUrl})
+
+    } else {
+
+      console.log('找不到對應的 shortenedUrl');
+      const shortnumber = randomURL()
+      return ShortUrl.create({ originalUrl : origlUrl , shortenedUrl : shortnumber })     // 存入資料庫
+        // .then(() => res.redirect('/')) // 新增完成後導回首頁 //結果居然使用render重新導回就好
+        .then(() => res.render('index' , {  shortnumber : shortnumber , origlUrl : origlUrl})) // 新增完成後導回首頁
+        .catch(error => console.log(error))
+    }
+  });
+
+
 })
 
 
