@@ -8,6 +8,10 @@ $ git clone https://github.com/LAI-Recycle/URL-shortener.git
 ```
 $ npm install
 ```
+- 建立 .env 文件，連線至你的 MongoDB (注意<>的地方)
+```
+MONGODB_URI=mongodb+srv://<Your MongoDB Account>:<Your MongoDB Password>@cluster0.xxxx.xxxx.net/<Your MongoDB Table><?retryWrites=true&w=majority
+```
 - Install nodemon
 ```
 $ npm i nodemon
