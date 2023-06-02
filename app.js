@@ -60,7 +60,7 @@ app.post('/shortURL', (req, res) => {
 
       console.log('找不到對應的 shortenedUrl');
       // 生成短網址
-      const shortnumber = `http://localhost:3000/${randomURL()}`;
+      const shortnumber = `${randomURL()}`;
       
       return ShortUrl.create({ originalUrl : origlUrl , shortenedUrl : shortnumber })     // 存入資料庫
         // .then(() => res.redirect('/')) // 新增完成後導回首頁 //結果居然使用render重新導回就好
@@ -75,11 +75,12 @@ app.post('/shortURL', (req, res) => {
 
 
 app.get("/:shortenedUrl", (req, res) => {
-  console.log('進入短網址',req.params);
-  const shortnumber = `http://localhost:3000/${req.params.shortenedUrl}`;
+  // console.log('進入短網址',req.params);
+  
+  const URL = req.params.shortenedUrl;
 
   // 從資料庫中查找原始網址
-  ShortUrl.findOne({ shortenedUrl : shortnumber }, (err, result) => {
+  ShortUrl.findOne({ shortenedUrl : URL }, (err, result) => {
     
     if (err) {
       // 處理錯誤
@@ -87,6 +88,7 @@ app.get("/:shortenedUrl", (req, res) => {
       return;
     }
     if (result) {
+      
       
       console.log('對應的原始網址：', result.originalUrl); 
       res.redirect(result.originalUrl)
