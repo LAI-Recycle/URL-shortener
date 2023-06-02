@@ -90,12 +90,12 @@ app.get("/:shortenedUrl", (req, res) => {
     if (result) {
       
       
-      console.log('對應的原始網址：', result.originalUrl); 
+      // console.log('對應的原始網址：', result.originalUrl); 
       res.redirect(result.originalUrl)
 
     } else {
 
-      console.log('找不到對應的原始網址');
+      // console.log('找不到對應的原始網址');
       res.render("index")
       
     }

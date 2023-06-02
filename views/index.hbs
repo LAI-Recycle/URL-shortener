@@ -1,18 +1,40 @@
-<div class="container">
-  <h1>
-    URL Shortener
-  </h1>
-  
+<class="container">
+  <div class="row gx-30">
 
-  <form method="POST" action="/shortURL">
-    <input type="url" placeholder="http://" required="required" name="inputURL" value="{{origlUrl}}">
-    <button class="btn btn-success" type="submit">Shorten</button>
-    {{#if shortnumber}}
-    <div class="alert alert-info" role="alert">
-      <span>你的網址是:</span> <code id="copy" >http://localhost:3000/{{shortnumber}} </code>
+    <form method="POST" action="/shortURL">
+      <div class="mb-3">
+        <input class="form-control" type="url" placeholder="http://" required="required" name="inputURL" value="{{origlUrl}}">
+      </div>
+      <button class="btn btn-success mb-3" type="submit">Shorten</button>
       
+
+      {{#if shortnumber}}
+      <div class="mb-3">
+        <h2>成功了!你的網址是:</h2> <h1 id="copy" >http://localhost:3000/{{shortnumber}} </h1>
+      </div>
       {{!-- copy功能 --}}
-      <button type="button" onclick="copyEvent('copy')">Copy</button>
+      <button class="btn btn-danger mb-3" type="button" onclick="copyEvent('copy')" data-bs-toggle="modal" data-bs-target="#exampleModal">Copy</button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" id="exampleModalLabel">已經成功複製短網址</h3>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h3>http://localhost:3000/{{shortnumber}}</h3>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
 
       <script>
         function copyEvent(id) {
@@ -21,10 +43,8 @@
           document.execCommand("Copy")
         }
       </script>
-
-    </div>
-    {{/if}}
-  </form>
-
-
+      
+      {{/if}}
+    </form>
+  </div>
 </div>
