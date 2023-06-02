@@ -1,4 +1,7 @@
-#Getting Start
+# URL Shortener 短網址產生器
+---
+
+##  Getting Start
 ---
 - Clone the project
 ```
@@ -24,3 +27,11 @@ $ npm run dev
 ```
 App is running on http://localhost:3000
 ```
+
+## 開發工具
+---
+- Node.js 18.14.1
+- Express 4.17.1
+- Express-Handlebars 4.0.2
+- MongoDB
+- mongoose 5.9.7
