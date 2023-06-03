@@ -3,13 +3,16 @@
 ## 使用方式
 
 進入後的首頁畫面
-![image](./image/image_01.png)
+
+![image](./image/image-01.png)
 
 輸入網址後，按下Shorten會獲得縮短網址，路由縮短成五個隨機亂數。
-![image](./image/image_02.png)
+
+![image](./image/image-02.png)
 
 按下下方的copy按鈕，跳出訊息顯示成功複製縮短後的網址。
-![image](./image/image_03.png)
+
+![image](./image/image-03.png)
 
 在APP啟動的狀況下輸入縮短後的網址，即可回到最初填入的網站畫面。
 
