@@ -2,18 +2,18 @@
   <div class="row gx-30">
 
     <form method="POST" action="/shortURL">
-      <div class="mb-3">
+      <div class="mb-4">
         <input class="form-control" type="url" placeholder="http://" required="required" name="inputURL" value="{{origlUrl}}">
       </div>
-      <button class="btn btn-success mb-3" type="submit">Shorten</button>
+      <button class="btn btn-success mb-4" type="submit">Shorten</button>
       
 
       {{#if shortnumber}}
-      <div class="mb-3">
+      <div class="mb-4">
         <h2>成功了!你的網址是:</h2> <h1 id="copy" >http://localhost:3000/{{shortnumber}} </h1>
       </div>
       {{!-- copy功能 --}}
-      <button class="btn btn-danger mb-3" type="button" onclick="copyEvent('copy')" data-bs-toggle="modal" data-bs-target="#exampleModal">Copy</button>
+      <button class="btn btn-danger mb-4" type="button" onclick="copyEvent('copy')" data-bs-toggle="modal" data-bs-target="#exampleModal">Copy</button>
 
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
