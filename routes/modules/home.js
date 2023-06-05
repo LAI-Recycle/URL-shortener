@@ -7,8 +7,8 @@ const ShortUrl = require('../../models/shorturl') // 載入 shorturl model
 
 
 // 定義首頁路由
-router.get("/", (req, res) => {
-  res.render("index")
+router.get('/', (req, res) => {
+  res.render('index')
 })
 
 
@@ -48,7 +48,7 @@ router.post('/shortURL', (req, res) => {
 
 
 
-router.get("/:shortenedUrl", (req, res) => {
+router.get('/:shortenedUrl', (req, res) => {
   // console.log('進入短網址',req.params);
   
   const URL = req.params.shortenedUrl;
@@ -70,7 +70,7 @@ router.get("/:shortenedUrl", (req, res) => {
     } else {
 
       // console.log('找不到對應的原始網址');
-      res.render("index")
+      res.render('index')
       
     }
   }); 

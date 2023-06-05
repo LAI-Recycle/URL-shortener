@@ -7,7 +7,7 @@ function randomURL() {
   collectionnumberpool = numberpool.split('')
 
   //隨機抽取 5 碼英數組合
-  let randomnumber = ""
+  let randomnumber = ''
   for(let i = 0 ; i < 5 ; i++ ){
     //儲存
     const index = Math.floor(Math.random() * collectionnumberpool.length)
