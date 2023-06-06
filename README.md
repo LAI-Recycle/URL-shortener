@@ -1,5 +1,8 @@
 # URL Shortener 短網址產生器
 
+## 製作心得
+[網頁專案-url-shortener製作心得]([http://markdown.tw/](https://medium.com/@xfjioyhn/網頁專案-url-shortener製作心得-faa53056a3c8))
+
 ## 使用方式
 
 進入後的首頁畫面
