@@ -5,7 +5,13 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }) // 設定連線到 mongoDB
+const { MONGODB_URI } = process.env
+
+if (!MONGODB_URI) {
+  throw new Error('Missing MONGODB_URI. Create a .env file in the project root before starting the app.')
+}
+
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }) // 設定連線到 mongoDB
 
 // 取得資料庫連線狀態
 const db = mongoose.connection
