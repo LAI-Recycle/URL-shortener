@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 })
 
 
-router.post('/shortURL', (req, res) => {
+router.post('/shortURL', async (req, res) => {
   const userInput = (req.body.inputURL || '').trim() // 從 req.body 拿出表單裡的 inputURL 資料
   if (!userInput) {
     return res.render('index', { errorMessage: '請輸入網址' })
@@ -23,67 +23,42 @@ router.post('/shortURL', (req, res) => {
     ? userInput
     : `http://${userInput}`
 
-  console.log('options', origlUrl)
-
-
+  try {
     // 在 MongoDB 中查詢對應的 shortenedUrl
-  ShortUrl.findOne({ originalUrl: origlUrl }, (err, result) => {
-    if (err) {
-      // 處理錯誤
-      console.error(err);
-      return;
+    let result = await ShortUrl.findOne({ originalUrl: origlUrl })
+
+    if (!result) {
+      // 找不到則生成短網址並存入資料庫
+      const shortnumber = randomURL()
+      result = await ShortUrl.create({ originalUrl: origlUrl, shortenedUrl: shortnumber })
     }
 
-    if (result) {
-      // 顯示對應的 shortenedUrl
-      console.log('對應的 shortenedUrl：', result.shortenedUrl);
-      return res.render('index' , {  shortnumber : result.shortenedUrl , origlUrl : origlUrl})
-
-    } else {
-
-      console.log('找不到對應的 shortenedUrl');
-      // 生成短網址
-      const shortnumber = `${randomURL()}`;
-      
-      return ShortUrl.create({ originalUrl : origlUrl , shortenedUrl : shortnumber })     // 存入資料庫
-        // .then(() => res.redirect('/')) // 新增完成後導回首頁 //結果居然使用render重新導回就好
-        .then(() => res.render('index' , {  shortnumber : shortnumber , origlUrl : origlUrl})) // 新增完成後導回首頁
-        .catch(error => console.log(error))
-    }
-  });
-
-
+    return res.render('index', { shortnumber: result.shortenedUrl, origlUrl })
+  } catch (err) {
+    console.error(err)
+    return res.render('index', { errorMessage: '發生錯誤，請稍後再試' })
+  }
 })
 
 
 
-router.get('/:shortenedUrl', (req, res) => {
-  // console.log('進入短網址',req.params);
-  
-  const URL = req.params.shortenedUrl;
+router.get('/:shortenedUrl', async (req, res) => {
+  const shortenedUrl = req.params.shortenedUrl
 
-  // 從資料庫中查找原始網址
-  ShortUrl.findOne({ shortenedUrl : URL }, (err, result) => {
-    
-    if (err) {
-      // 處理錯誤
-      console.error(err);
-      return;
-    }
+  try {
+    // 從資料庫中查找原始網址
+    const result = await ShortUrl.findOne({ shortenedUrl })
+
     if (result) {
-      
-      
-      // console.log('對應的原始網址：', result.originalUrl); 
-      res.redirect(result.originalUrl)
-
+      return res.redirect(result.originalUrl)
     } else {
-
-      // console.log('找不到對應的原始網址');
-      res.render('index')
-      
+      return res.render('index', { errorMessage: '找不到對應的短網址' })
     }
-  }); 
-});
+  } catch (err) {
+    console.error(err)
+    return res.render('index', { errorMessage: '發生錯誤，請稍後再試' })
+  }
+})
 
 
 // 匯出路由模組
