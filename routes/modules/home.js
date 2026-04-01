@@ -13,7 +13,16 @@ router.get('/', (req, res) => {
 
 
 router.post('/shortURL', (req, res) => {
-  const origlUrl = req.body.inputURL       // 從 req.body 拿出表單裡的 inputURL 資料
+  const userInput = (req.body.inputURL || '').trim() // 從 req.body 拿出表單裡的 inputURL 資料
+  if (!userInput) {
+    return res.render('index', { errorMessage: '請輸入網址' })
+  }
+
+  // 自動補上 protocol，避免輸入 "google.com" 直接重導失敗
+  const origlUrl = /^https?:\/\//i.test(userInput)
+    ? userInput
+    : `http://${userInput}`
+
   console.log('options', origlUrl)
 
 
