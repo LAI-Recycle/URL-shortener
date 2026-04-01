@@ -28,8 +28,15 @@ router.post('/shortURL', async (req, res) => {
     let result = await ShortUrl.findOne({ originalUrl: origlUrl })
 
     if (!result) {
-      // 找不到則生成短網址並存入資料庫
-      const shortnumber = randomURL()
+      // 找不到則生成短網址並存入資料庫，碰撞時重試
+      let shortnumber
+      for (let i = 0; i < 5; i++) {
+        shortnumber = randomURL()
+        const exists = await ShortUrl.findOne({ shortenedUrl: shortnumber })
+        if (!exists) break
+        shortnumber = null
+      }
+      if (!shortnumber) throw new Error('無法生成唯一短碼，請稍後再試')
       result = await ShortUrl.create({ originalUrl: origlUrl, shortenedUrl: shortnumber })
     }
 
